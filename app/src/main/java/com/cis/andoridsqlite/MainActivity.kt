@@ -27,13 +27,29 @@ class MainActivity : AppCompatActivity() {
 
             data!!.moveToFirst()
             displayText.text = ""
-            displayText.append(data.getString(data.getColumnIndex("taskname")))
 
-            while (data.moveToNext()){
+
+           do {
+                val taskname = data.getString(data.getColumnIndex("taskname"))
+                val id = data.getString(data.getColumnIndex("id"))
+                displayText.append(id + " )" + taskname)
                 displayText.append("\n")
                 displayText.append(data.getString(data.getColumnIndex("taskname")))
-            }
+            }while(data.moveToNext())
             data.close()
+        }
+        buttonDelete.setOnClickListener {
+            val input = editText2.text.toString()
+            val dbHelper =DBHelper(this,DB_NAME,null,1)
+            val result =dbHelper.deleteTask(input.toInt())
+        }
+        buttonEdit.setOnClickListener {
+            // 1,NewTask
+            val input = editText2.text.toString()
+            val datas = input.split("")
+            val task =Task(datas[0].toInt(),datas[1])
+            val dbHelper =DBHelper(this,DB_NAME,null,1)
+            val result =dbHelper.updateTask(task)
         }
     }
 

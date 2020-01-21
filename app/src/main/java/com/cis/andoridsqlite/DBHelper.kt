@@ -31,6 +31,21 @@ class DBHelper(
         val db = this.readableDatabase
         return db.rawQuery("SELECT * FROM "+TABLE_NAME,null)
 0    }
+    fun updateTask(data:Task):Int{
+        val db = this.writableDatabase
+        val contenValue = ContentValues()
+        val result = db.update(TABLE_NAME,contenValue,
+            COLUMN_ID+"="+data.id,null)
+        db.close()
+        return result
+    }
+    fun deleteTask(id:Int):Int{
+        val db = this.writableDatabase
+        val result=db.delete(TABLE_NAME,COLUMN_ID+"="+id,null)
+        db.close()
+        return result
+    }
+
 
     override fun onCreate(db: SQLiteDatabase) {
         val CREATE_TABLE = "CREATE TABLE " + TABLE_NAME +
